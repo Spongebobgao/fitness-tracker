@@ -16,3 +16,9 @@ sequelize.sync()
     app.listen(config.port)
     console.log(`server started on port ${config.port}`)
   })
+
+app.get('/Users', (req, res) => {
+  sequelize.query(`SELECT * FROM Users`).then(results => {
+    console.log(results)
+  })
+})

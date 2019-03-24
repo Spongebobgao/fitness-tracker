@@ -3,7 +3,7 @@
     <v-flex xs6 offset-xs3>
       <div class = "white elevation-2">
         <v-toolbar flat dense class="teal" dark>
-          <v-toolbar-title>Register</v-toolbar-title>
+          <v-toolbar-title>Search</v-toolbar-title>
         </v-toolbar>
         <div class="pl-4 pr-4 pt-2 pb-2">
           <v-text-field
@@ -12,19 +12,10 @@
             clearable>
           </v-text-field>
           <br>
-          <v-text-field
-            label="Password"
-            v-model="password"
-            type= 'password'
-            hint="At least 8 characters"
-            counter
-            clearable>
-          </v-text-field>
+          <div class = "teal lighten-5" v-html = "error" />
           <br>
-          <div class = "error" v-html = "error" />
-          <br>
-          <v-btn dark class = "teal" @click="register">
-            Register</v-btn>
+          <v-btn dark class = "teal" @click="search">
+            Search</v-btn>
         </div>
       </div>
     </v-flex>
@@ -36,17 +27,15 @@ export default {
   data () {
     return {
       email: '',
-      password: '',
       error: null
     }
   },
   methods: {
-    async register () {
+    async search () {
       this.error = null
       try {
-        await AuthenticationService.register({
-          email: this.email,
-          password: this.password
+        await AuthenticationService.search({
+          email: this.email
         })
       } catch (error) {
         this.error = error.response.data.error
@@ -58,7 +47,7 @@ export default {
 </script>
 <style scoped>
 .error {
-  color:rgb(8, 80, 75)
+  color:rgb(4, 80, 75)
 
 }
 </style>
