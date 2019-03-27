@@ -18,7 +18,35 @@ sequelize.sync()
   })
 
 app.get('/Users', (req, res) => {
-  sequelize.query(`SELECT * FROM Users`).then(results => {
+  sequelize.query(`SELECT * FROM Users`).then((err, rows, fields) => {
+    if (!err) {
+      res.send(rows)
+    } else {
+      console.log(err)
+    }
+  })
+})
+
+app.get('/Users/:id', (req, res) => {
+  sequelize.query('SELECT * FROM Users WHERE id = ?',
+    { replacements: [req.params.id], type: sequelize.QueryTypes.SELECT }
+  ).then(user => {
+    console.log(user)
+  })
+})
+
+app.delete('/Users/:id', (req, res) => {
+  sequelize.query('DELETE FROM Users WHERE id = ?',
+    { replacements: [req.params.id], type: sequelize.QueryTypes.DELETE }
+  ).then(user => {
+    console.log(user)
+  })
+})
+
+app.post('/Users/:id', (req, res) => {
+  sequelize.query('UPDATE Users SET password = 123456789 WHERE id = ?',
+    { replacements: [req.params.id], type: sequelize.QueryTypes.UPDATE }
+  ).then((results, metadata) => {
     console.log(results)
   })
 })
