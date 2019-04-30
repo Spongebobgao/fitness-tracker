@@ -21,7 +21,7 @@
             clearable>
           </v-text-field>
           <br>
-          <div class = "error" v-html = "error" />
+          <div class = "teal lighten-5" v-html = "error" />
           <br>
           <v-btn dark class = "teal" @click="register">
             Register</v-btn>
@@ -33,6 +33,7 @@
 <script>
 import AuthenticationService from '@/services/AuthenticationService'
 export default {
+  name: 'register',
   data () {
     return {
       email: '',
@@ -44,10 +45,15 @@ export default {
     async register () {
       this.error = null
       try {
-        await AuthenticationService.register({
+        const response = await AuthenticationService.register({
           email: this.email,
           password: this.password
         })
+        this.$store.dispatch('setToken', response.data.token)
+        this.$store.dispatch('setUser', response.data.user)
+        console.log(response)
+        const id = response.data.user.id
+        this.$router.push(`middle/${id}`)
       } catch (error) {
         this.error = error.response.data.error
       }
@@ -58,7 +64,7 @@ export default {
 </script>
 <style scoped>
 .error {
-  color:rgb(8, 80, 75)
+  color:rgb(4, 80, 75)
 
 }
 </style>

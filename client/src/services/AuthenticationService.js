@@ -1,17 +1,15 @@
 import Api from '@/services/Api'
 
 export default {
+
   register (credentials) {
-    return Api().post('register', credentials)
+    return Api().post('/register', credentials)
   },
   login (credentials) {
-    return Api().post('login', credentials)
-  },
-  search (credentials) {
-    return Api().post('search', credentials)
+    return Api().post('/login', credentials)
   },
   delete (credentials) {
-    return Api().post('delete', credentials)
+    return Api().post('/delete', credentials)
   }
 }
 

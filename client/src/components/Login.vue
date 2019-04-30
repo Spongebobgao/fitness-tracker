@@ -30,7 +30,9 @@
 </template>
 <script>
 import AuthenticationService from '@/services/AuthenticationService'
+
 export default {
+  name: 'login',
   data () {
     return {
       email: '',
@@ -42,17 +44,21 @@ export default {
     async login () {
       this.error = null
       try {
-        await AuthenticationService.login({
+        const response = await AuthenticationService.login({
           email: this.email,
           password: this.password
         })
+        this.$store.dispatch('setToken', response.data.token)
+        this.$store.dispatch('setUser', response.data.user)
+        const id = response.data.user.id
+        this.$router.push(`/profile/${id}`
+        )
       } catch (error) {
         this.error = error.response.data.error
       }
     }
   }
 }
-
 </script>
 <style scoped>
 .error {
