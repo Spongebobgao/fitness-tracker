@@ -17,9 +17,11 @@ import MyFriends from '@/components/MyFriends'
 import FriendPage from '@/components/FriendPage'
 import Youtube from '@/components/Youtube'
 
+import store from '@/store/store'
+
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -88,14 +90,19 @@ export default new Router({
     }
   ]
 })
-/* this.router.beforeEach((to, from, next) => {
-  console.log({ to, from })
+
+router.beforeEach((to, from, next) => {
   const publicRoutes = ['root', 'login', 'register']
-  if (!publicRoutes.includes(to.name) && this.$store.state.user.id == null) {
-    this.$store.redirectRoute = {
-      name: to.name, path: to.path, params: to.params, query: to.query, hash: to.hash
+  if (!publicRoutes.includes(to.name) && !store.state.user) {
+    const redirectRoute = {
+      name: to.name,
+      params: {
+        id: to.params.id
+      }
     }
+    store.dispatch('setRedirectRoute', redirectRoute)
     return next('login')
   }
   next()
-}) */
+})
+export default router

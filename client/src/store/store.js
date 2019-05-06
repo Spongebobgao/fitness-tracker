@@ -10,7 +10,13 @@ export default new Vuex.Store({
   state: {
     token: null,
     user: null,
-    isUserLoggedIn: false
+    isUserLoggedIn: false,
+    redirectRoute: {
+      name: null,
+      params: {
+        id: null
+      }
+    }
   },
   mutations: {
     setToken (state, token) {
@@ -23,6 +29,9 @@ export default new Vuex.Store({
     },
     setUser (state, user) {
       state.user = user
+    },
+    setRedirectRoute (state, redirectRoute) {
+      state.redirectRoute = redirectRoute
     }
   },
   actions: {
@@ -31,6 +40,9 @@ export default new Vuex.Store({
     },
     setUser ({ commit }, user) {
       commit('setUser', user)
+    },
+    setRedirectRoute ({ commit }, redirectRoute) {
+      commit('setRedirectRoute', redirectRoute)
     }
   },
   /* modules: {

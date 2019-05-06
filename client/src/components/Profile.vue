@@ -1,8 +1,8 @@
 <template>
 <v-layout>
-    <v-flex xs6 offset-xs3>
+    <v-flex xs6 offset-xs3 v-if="$store.state.user.id == $route.params.id">
       <panel title="Info">
-        <v-btn v-if="$store.state.user.id == $route.params.id" @click="navigateTo"
+        <v-btn @click="navigateTo"
           slot="action"
           class="teal"
           light
@@ -15,7 +15,36 @@
           </v-icon>
           Edit
         </v-btn>
-        <v-btn v-show="$store.state.user.id != $route.params.id && friendId !== $store.state.user.id"
+          <div
+           headline>
+            <v-layout>
+              <v-flex >
+              <v-text-field
+            label="First Name"
+            :value="myProfile.firstName"
+            readonly>
+          </v-text-field>
+          <br>
+         <v-text-field
+            label="Last Name"
+            :value="myProfile.lastName"
+            readonly>
+          </v-text-field>
+          <br>
+          <v-text-field
+            label="Birthday"
+            :value="myProfile.birthday"
+            readonly>
+          </v-text-field>
+          <br>
+            </v-flex>
+          </v-layout>
+        </div>
+      </panel>
+    </v-flex>
+    <v-flex xs6 offset-xs3 v-else>
+      <panel title="Info">
+        <v-btn v-if="!checkIfIsFriend"
           @click="addFriend"
           slot="action"
           class="teal"
@@ -35,19 +64,19 @@
               <v-flex >
               <v-text-field
             label="First Name"
-            v-model="profile.firstName"
+            :value="friendProfile.firstName"
             readonly>
           </v-text-field>
           <br>
          <v-text-field
             label="Last Name"
-            v-model="profile.lastName"
+            :value="friendProfile.lastName"
             readonly>
           </v-text-field>
           <br>
           <v-text-field
             label="Birthday"
-            v-model="profile.birthday"
+            :value="friendProfile.birthday"
             readonly>
           </v-text-field>
           <br>
@@ -66,13 +95,27 @@ export default {
   name: 'profile',
   data () {
     return {
-      profile: {
+      myProfile: {
         firstName: null,
         lastName: null,
         birthday: null
       },
-      friendId: null
+      friendProfile: {
+        firstName: null,
+        lastName: null,
+        birthday: null
+      },
+      friendId: [],
+      checkIfIsFriend: true
     }
+  },
+  async beforeCreate () {
+    this.friendId = (await FriendService.getAll(this.$store.state.user.id)).data.map(friend => friend.userId)
+    this.checkIfIsFriend = this.friendId.includes(parseInt(this.$route.params.id))
+    this.myProfile = (await ProfileService.getProfile(this.$store.state.user.id)).data
+    this.myProfile.birthday = this.myProfile.birthday.split('T')[0]
+    this.friendProfile = (await ProfileService.getProfile(this.$route.params.id)).data
+    this.friendProfile.birthday = this.friendProfile.birthday.split('T')[0]
   },
   methods: {
     navigateTo () {
@@ -97,26 +140,12 @@ export default {
         console.log(err)
       }
     }
-  },
-  async mounted () {
-    this.profile = (await ProfileService.getProfile(this.$route.params.id)).data
-    this.profile.birthday = this.profile.birthday.split('T')[0]
-    this.friend = (await FriendService.getAll(this.$route.params.id)).data
-    this.friendId = this.friend[0].userId
-    console.log('what')
-    console.log(this.friendId)
   }
-  /* watch: {
-    '$route.query.search': {
-      immediate: true,
-      async handler (profileId) {
-        this.profile = (await profileService.getProfile(profileId)).data
-      }
-    }
-  } */
 }
 
 </script>
 <style>
-
+[v-cloak] {
+  display: none;
+}
 </style>

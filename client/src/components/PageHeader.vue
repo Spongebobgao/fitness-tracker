@@ -2,9 +2,10 @@
     <v-toolbar fixed class = "teal" dark>
       <v-toolbar-title flat >
         <span
-          class="home"
+          class="tooltip"
           @click="navigateTo({name: 'root'})">
           FitnessTracker
+          <span class="tooltiptext">Go to home page.</span>
         </span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
@@ -108,11 +109,25 @@ export default {
 }
 </script>
 <style scoped>
-.home {
+.tooltip {
   cursor: pointer;
 }
-
-.home:hover{
+.tooltip:hover{
   color:darkslategrey
+}
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color:teal;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  z-index: 1;
+  top: 150%;
+  font-size: 15px;
+}
+.tooltip:hover .tooltiptext {
+  visibility: visible;
 }
 </style>

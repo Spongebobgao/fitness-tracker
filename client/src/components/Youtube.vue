@@ -2,7 +2,7 @@
 <v-flex xs6 offset-xs3>
   <panel title="Exercise Videos">
   <youtube
-  :youtubeId="videos.youtubeId"
+  :id="videos.youtubeId"
   :player-width="400"
   :player-height="300">
   </youtube>
@@ -16,6 +16,7 @@ export default {
   data () {
     return {
       videos: {
+        youtubeName: null,
         youtubeId: null
       },
       error: null

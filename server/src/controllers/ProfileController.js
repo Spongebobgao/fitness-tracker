@@ -36,11 +36,9 @@ module.exports = {
   },
   async getFriendName (req, res) {
     try {
-      console.log(req.params)
       const profile = await Profile.findAll({
         attributes: ['firstName', 'lastName']
       })
-      console.log(profile)
       res.send(profile[0])
     } catch (err) {
       res.status(500).send({
@@ -53,7 +51,6 @@ module.exports = {
       console.log(req.params)
       const profile = await sequelize.query(`select *
       from Profiles where UserId=?`, { replacements: [req.params.id], type: sequelize.QueryTypes.SELECT }, { model: Profile })
-      console.log('indexxxxxxxxxxxxxxxxx')
       res.send(profile[0])
     } catch (err) {
       res.status(500).send({
@@ -63,8 +60,6 @@ module.exports = {
   },
   async create (req, res) {
     try {
-      console.log(req.body)
-      console.log('kkkkkkkk')
       const profile = await Profile.create(req.body)
       res.send(profile)
     } catch (err) {
@@ -102,8 +97,6 @@ module.exports = {
     try {
       let profile = req.body
       let firstName = profile.firstName
-      console.log(profile)
-      console.log('empty????????????')
       if (firstName) {
         profile = await Profile.findAll({
           attributes: ['firstName', 'lastName'],
@@ -117,13 +110,6 @@ module.exports = {
             }))
           }
         })
-        // var x
-        /* for (x = 0; x < profile.length; x++) {
-          console.log({
-            'firstName': profile[x].firstName,
-            'lastName': profile[x].lastName
-          })
-        } */
         res.send(profile)
       } else {
         res.send('USER NOT FOUND.')
@@ -136,20 +122,3 @@ module.exports = {
     }
   }
 }
-/* async show (req, res) {
-  try {
-    console.log(req)
-    const profile = await Profile.findOne({
-      attributes: ['firstName', 'lastName', 'age', 'Birthday'],
-      where: {
-        userId: req.params.id
-      }
-    })
-    console.log('getOneeeeeeeeeeeeeeeeeee')
-    res.send(profile)
-  } catch (err) {
-    res.status(500).send({
-      error: 'An error occured trying to fetch the profile'
-    })
-  }
-} */

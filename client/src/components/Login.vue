@@ -24,6 +24,7 @@
           <v-btn dark class = "teal" @click="login">
             Login</v-btn>
         </div>
+        <router-link class="link" to='register'>No account? Register now!</router-link>
       </div>
     </v-flex>
   </v-layout>
@@ -50,9 +51,17 @@ export default {
         })
         this.$store.dispatch('setToken', response.data.token)
         this.$store.dispatch('setUser', response.data.user)
-        const id = response.data.user.id
-        this.$router.push(`/profile/${id}`
-        )
+        if (this.$store.state.redirectRoute) {
+          this.$router.push({
+            name: this.$store.state.redirectRoute.name,
+            params: {
+              id: this.$store.state.redirectRoute.params.id
+            }
+          })
+        } else {
+          const id = response.data.user.id
+          this.$router.push(`/posts/${id}`)
+        }
       } catch (error) {
         this.error = error.response.data.error
       }
@@ -63,6 +72,8 @@ export default {
 <style scoped>
 .error {
   color:rgb(4, 80, 75)
-
+}
+.link {
+  color:rgb(4, 80, 75)
 }
 </style>
