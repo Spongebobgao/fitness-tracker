@@ -21,8 +21,6 @@
             clearable>
           </v-text-field>
           <br>
-          <div class = "teal lighten-5" v-html = "error" />
-          <br>
           <v-btn dark class = "teal" @click="register">
             Register</v-btn>
         </div>
@@ -32,6 +30,7 @@
 </template>
 <script>
 import AuthenticationService from '@/services/AuthenticationService'
+import toastr from 'toastr'
 export default {
   name: 'register',
   data () {
@@ -56,6 +55,7 @@ export default {
         this.$router.push(`middle/${id}`)
       } catch (error) {
         this.error = error.response.data.error
+        toastr.error(this.error)
       }
     }
   }

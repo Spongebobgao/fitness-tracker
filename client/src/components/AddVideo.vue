@@ -3,25 +3,30 @@
     <v-flex xs6 offset-xs3>
       <div class = "white elevation-2">
         <v-toolbar flat dense class="teal" dark>
-          <v-toolbar-title>Create Exercise Post</v-toolbar-title>
+          <v-toolbar-title>Add Video</v-toolbar-title>
         </v-toolbar>
         <div class="pl-4 pr-4 pt-2 pb-2">
           <v-text-field
             label="User Id"
-            required
-            multiline
-            :rules="[required]"
-            v-model="post.userId"
+            v-model="video.userId"
             readonly>
           </v-text-field>
           <br>
-        <v-textarea
-            label="Exercise"
+        <v-text-field
+            label="Youtube Id"
             required
             :rules="[required]"
-            v-model="post.postRecord"
+            v-model="video.youtubeId"
             clearable>
-          </v-textarea>
+          </v-text-field>
+          <br>
+          <v-text-field
+            label="Video Name"
+            required
+            :rules="[required]"
+            v-model="video.youtubeName"
+            clearable>
+          </v-text-field>
           <br>
            <v-alert v-if="error"
             :value="true"
@@ -31,8 +36,10 @@
             {{ error }}
            </v-alert>
             <br>
-          <v-btn dark class = "teal" @click="createPost">
-            Create Post</v-btn>
+          <v-btn dark class = "teal" @click="addVideo">
+            Add video</v-btn>
+          <v-btn dark class = "teal" @click="cancle">
+            Cancle</v-btn>
         </div>
       </div>
     </v-flex>
@@ -40,33 +47,34 @@
 </template>
 
 <script>
-import PostService from '@/services/PostService'
+import YoutubeService from '@/services/YoutubeService'
 export default {
-  name: 'creatPost',
+  name: 'addVideo',
   data () {
     return {
-      post: {
+      video: {
         userId: this.$store.state.user.id,
-        postRecord: null
+        youtubeId: null,
+        youtubeName: null
       },
       error: null,
       required: (value) => !!value || 'Required.'
     }
   },
   methods: {
-    async createPost () {
+    async addVideo () {
       this.error = null
       const areAllFieldsFilledIn = Object
-        .keys(this.post)
-        .every(key => !!this.post[key])
+        .keys(this.video)
+        .every(key => !!this.video[key])
       if (!areAllFieldsFilledIn) {
         this.error = 'Please fill in the required fields.'
         return
       }
       try {
-        await PostService.addPost(this.post)
+        await YoutubeService.addVideo(this.video)
         this.$router.push({
-          name: 'posts',
+          name: 'youtube',
           params: {
             userId: this.$store.state.user.id
           }
@@ -74,6 +82,9 @@ export default {
       } catch (err) {
         console.log(err)
       }
+    },
+    cancle () {
+      this.$router.push(`/youtubes/${this.$store.state.user.id}`)
     }
   }
 }

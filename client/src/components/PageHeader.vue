@@ -68,6 +68,7 @@
 
 <script>
 import ProfileService from '@/services/ProfileService'
+import toastr from 'toastr'
 export default {
   data () {
     return {
@@ -101,6 +102,7 @@ export default {
       this.$store.dispatch('setToken', null)
       this.$store.dispatch('setUser', null)
       this.$router.push({ name: 'root' })
+      toastr.success('Logged out successfully.')
     }
   },
   async mounted () {

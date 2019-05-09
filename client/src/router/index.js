@@ -16,7 +16,7 @@ import CreateProfile from '@/components/CreateProfile'
 import MyFriends from '@/components/MyFriends'
 import FriendPage from '@/components/FriendPage'
 import Youtube from '@/components/Youtube'
-
+import AddVideo from '@/components/AddVideo'
 import store from '@/store/store'
 
 Vue.use(Router)
@@ -87,6 +87,11 @@ const router = new Router({
       path: '/youtubes/:id',
       name: 'youtube',
       component: Youtube
+    },
+    {
+      path: '/addvideo/:id',
+      name: 'addVideo',
+      component: AddVideo
     }
   ]
 })

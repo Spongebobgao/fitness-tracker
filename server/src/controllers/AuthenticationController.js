@@ -49,7 +49,6 @@ module.exports = {
         user: userJson,
         token: jwtSignUser(userJson)
       })
-      console.log(user)
     } catch (err) {
       res.status(500).send({
         error: 'An error has occured trying to log in'

@@ -45,4 +45,10 @@ module.exports = (app) => {
   app.get('/youtubes/:id',
     YoutubeController.getVideos
   )
+  app.post('/addvideo/:id',
+    YoutubeController.addVideo
+  )
+  app.delete('/youtubes/:id',
+    YoutubeController.deleteVideo
+  )
 }

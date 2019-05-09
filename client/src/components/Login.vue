@@ -19,8 +19,6 @@
             clearable>
           </v-text-field>
           <br>
-          <div class = "teal lighten-5" v-html = "error" />
-          <br>
           <v-btn dark class = "teal" @click="login">
             Login</v-btn>
         </div>
@@ -31,6 +29,7 @@
 </template>
 <script>
 import AuthenticationService from '@/services/AuthenticationService'
+import toastr from 'toastr'
 
 export default {
   name: 'login',
@@ -52,6 +51,7 @@ export default {
         this.$store.dispatch('setToken', response.data.token)
         this.$store.dispatch('setUser', response.data.user)
         if (this.$store.state.redirectRoute) {
+          toastr.success('You;ve successfully logged in!')
           this.$router.push({
             name: this.$store.state.redirectRoute.name,
             params: {
@@ -59,11 +59,17 @@ export default {
             }
           })
         } else {
-          const id = response.data.user.id
-          this.$router.push(`/posts/${id}`)
+          toastr.success('You;ve successfully logged in!')
+          this.$router.push({
+            name: 'posts',
+            params: {
+              id: this.$store.state.user.id
+            }
+          })
         }
       } catch (error) {
         this.error = error.response.data.error
+        toastr.error(this.error)
       }
     }
   }
