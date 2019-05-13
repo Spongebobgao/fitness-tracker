@@ -27,8 +27,8 @@ export default {
   data () {
     return {
       profiles: {
-        firstName: '',
-        lastName: ''
+        firstName: null,
+        lastName: null
       }
     }
   },
