@@ -34,12 +34,12 @@ module.exports = {
       })
     }
   },
-  async getFriendName (req, res) {
+  async getUserName (req, res) {
     try {
       const profile = await Profile.findAll({
-        attributes: ['firstName', 'lastName']
+        attributes: ['userId', 'firstName', 'lastName']
       })
-      res.send(profile[0])
+      res.send(profile)
     } catch (err) {
       res.status(500).send({
         error: 'An error occured trying to fetch the profile'

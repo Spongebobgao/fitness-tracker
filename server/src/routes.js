@@ -15,6 +15,9 @@ module.exports = (app) => {
   app.post('/create/:id',
     ProfileController.create
   )
+  app.get('/searchUser',
+    ProfileController.getUserName
+  )
   app.get('/profile/:id',
     ProfileController.getProfile
   )

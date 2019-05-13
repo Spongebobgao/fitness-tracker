@@ -22,14 +22,6 @@
             v-model="post.postRecord"
             clearable>
           </v-textarea>
-          <br>
-           <v-alert v-if="error"
-            :value="true"
-            color="error"
-            icon="warning"
-            outline>
-            {{ error }}
-           </v-alert>
             <br>
           <v-btn dark class = "teal" @click="createPost">
             Create Post</v-btn>
@@ -41,6 +33,7 @@
 
 <script>
 import PostService from '@/services/PostService'
+import toastr from 'toastr'
 export default {
   name: 'creatPost',
   data () {
@@ -61,6 +54,7 @@ export default {
         .every(key => !!this.post[key])
       if (!areAllFieldsFilledIn) {
         this.error = 'Please fill in the required fields.'
+        toastr.error(this.error)
         return
       }
       try {

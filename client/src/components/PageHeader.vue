@@ -26,6 +26,12 @@
           <v-btn flat
           small
           v-if="$store.state.isUserLoggedIn"
+          @click="navigateTo({name: 'searchUser'})">
+          Search
+          </v-btn>
+          <v-btn flat
+          small
+          v-if="$store.state.isUserLoggedIn"
           @click="myPost">
           Posts
           </v-btn>

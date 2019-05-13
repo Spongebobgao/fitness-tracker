@@ -11,6 +11,9 @@ export default {
   getProfile (id) { // get current user profile
     return Api().get(`/profile/${id}`)
   },
+  getUserName () { // get all user profile
+    return Api().get(`/searchUser`)
+  },
   create (profile) {
     return Api().post(`/create/${profile.userId}`, profile)
   },
